@@ -2,191 +2,979 @@
     * Github: https://github.com/AllOneNeon
 -->
 
-<!doctype html>
-<html lang="en">
-
+<!DOCTYPE html>
+<html lang="ru">
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Noto+Sans&display=swap" rel="stylesheet">
-    <link href="css/style.css" type="text/css" rel="stylesheet" />
-
-    <title>CV</title>
-    <meta name="description" content="online resume">
-    <meta name="keywords" content="CV">
-    <meta name="author" content="Andrew Karnaushenko">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0-12/css/all.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Software Engineer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="shortcut icon" href="heart.png" />
+    <style>
+        .social-links {
+            position: relative;
+            z-index: 10;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 6px;
+            background-color: var(--card-bg);
+            color: var(--light-color);
+            font-size: 1.2rem;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            z-index: 11;
+            pointer-events: auto;
+        }
+
+        .tech-bg, .tech-element, .space-bg {
+            pointer-events: none;
+        }
+        :root {
+            --primary-color: #58a6ff;
+            --secondary-color: #1f6feb;
+            --accent-color: #f78166;
+            --dark-color: #0d1117;
+            --darker-color: #010409;
+            --light-color: #c9d1d9;
+            --lighter-color: #f0f6fc;
+            --gray-color: #8b949e;
+            --border-color: #30363d;
+            --card-bg: #161b22;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            z-index: 2;
+        }
+
+        .photo-container {
+            width: 320px;
+            height: 320px;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 24px rgba(1, 4, 9, 0.5);
+            transform: perspective(1000px) rotateX(5deg) rotateY(-10deg);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            background-color: var(--card-bg);
+        }
+
+        .photo-container:hover {
+            transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.02);
+            box-shadow: 0 12px 28px rgba(1, 4, 9, 0.7);
+            border-color: var(--primary-color);
+        }
+
+        .photo-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(88, 166, 255, 0.1), rgba(31, 111, 235, 0.2));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .photo-container:hover::before {
+            opacity: 1;
+        }
+
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: grayscale(20%) contrast(110%);
+        }
+
+        .photo-container:hover img {
+            transform: scale(1.03);
+            filter: grayscale(0%) contrast(120%);
+        }
+
+        .header-text {
+            max-width: 600px;
+        }
+
+        .header-text h1 {
+            font-size: 3rem;
+            margin-bottom: 0.8rem;
+            color: var(--lighter-color);
+            font-weight: 600;
+            line-height: 1.25;
+            position: relative;
+            display: inline-block;
+        }
+
+        .header-text h1::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-color), transparent);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.5s ease;
+        }
+
+        .header-text:hover h1::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .header-text h2 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--gray-color);
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .header-text h2::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--gray-color);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.5s ease 0.1s;
+        }
+
+        .header-text:hover h2::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .header-text p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: var(--light-color);
+            transition: all 0.3s ease;
+        }
+
+        .header-text:hover p {
+            color: var(--lighter-color);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 6px;
+            background-color: var(--card-bg);
+            color: var(--light-color);
+            font-size: 1.2rem;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .social-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(88, 166, 255, 0.2), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--secondary-color);
+            color: white;
+            transform: translateY(-3px);
+            border-color: var(--secondary-color);
+            box-shadow: 0 5px 15px rgba(31, 111, 235, 0.3);
+        }
+
+        .social-links a:hover::before {
+            left: 100%;
+        }
+
+        .tech-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+            opacity: 0.1;
+        }
+
+        .tech-element {
+            position: absolute;
+            background-color: var(--primary-color);
+            opacity: 0.8;
+            transition: all 0.5s ease;
+        }
+
+        .tech-element:nth-child(1) {
+            width: 120px;
+            height: 2px;
+            top: 20%;
+            left: 10%;
+            transform: rotate(45deg);
+        }
+
+        .tech-element:nth-child(2) {
+            width: 80px;
+            height: 2px;
+            top: 60%;
+            left: 80%;
+            transform: rotate(-15deg);
+        }
+
+        .tech-element:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            top: 80%;
+            left: 20%;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        }
+
+        .tech-element:nth-child(4) {
+            width: 100px;
+            height: 100px;
+            top: 30%;
+            left: 70%;
+            clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+        }
+
+        .tech-element:nth-child(5) {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            top: 15%;
+            left: 85%;
+            border: 2px solid var(--primary-color);
+            background-color: transparent;
+        }
+
+        .tech-element:nth-child(6) {
+            width: 80px;
+            height: 80px;
+            top: 75%;
+            left: 15%;
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+        }
+
+        .tech-element:nth-child(7) {
+            width: 150px;
+            height: 3px;
+            top: 40%;
+            left: 50%;
+            transform: rotate(75deg);
+        }
+
+        .tech-element:nth-child(8) {
+            width: 60px;
+            height: 60px;
+            top: 25%;
+            left: 30%;
+            clip-path: circle(50% at 50% 50%);
+            background: conic-gradient(var(--primary-color) 0% 20%, transparent 20% 100%);
+        }
+
+        .tech-element:nth-child(9) {
+            width: 100px;
+            height: 100px;
+            top: 65%;
+            left: 65%;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+
+        .tech-element:nth-child(10) {
+            width: 70px;
+            height: 70px;
+            top: 10%;
+            left: 40%;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+
+        .about-section {
+            padding: 6rem 0;
+            position: relative;
+            background-color: var(--darker-color);
+        }
+
+        .section-title-container {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--lighter-color);
+            font-weight: 500;
+            display: inline-block;
+            position: relative;
+        }
+
+        .section-title::before, .section-title::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-color), transparent);
+        }
+
+        .section-title::before {
+            right: 100%;
+            margin-right: 15px;
+            transform-origin: right;
+            transform: scaleX(0);
+            transition: transform 0.5s ease;
+        }
+
+        .section-title::after {
+            left: 100%;
+            margin-left: 15px;
+            transform-origin: left;
+            transform: scaleX(0);
+            transition: transform 0.5s ease 0.2s;
+            background: linear-gradient(90deg, transparent, var(--primary-color));
+        }
+
+        .section-title-container:hover .section-title::before,
+        .section-title-container:hover .section-title::after {
+            transform: scaleX(1);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .about-card {
+            background: var(--card-bg);
+            border-radius: 6px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 0;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+            transition: height 0.5s ease;
+        }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(1, 4, 9, 0.5);
+            border-color: var(--primary-color);
+        }
+
+        .about-card:hover::before {
+            height: 100%;
+        }
+
+        .about-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--lighter-color);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .about-card h3::before {
+            content: '{';
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+            font-weight: 400;
+            transform: translateX(-10px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .about-card h3::after {
+            content: '}';
+            color: var(--primary-color);
+            margin-left: 0.5rem;
+            font-weight: 400;
+            transform: translateX(10px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .about-card:hover h3::before,
+        .about-card:hover h3::after {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .about-card ul {
+            list-style: none;
+        }
+
+        .about-card li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.8rem;
+            color: var(--light-color);
+            transition: all 0.3s ease;
+        }
+
+        .about-card li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .about-card:hover li {
+            color: var(--lighter-color);
+        }
+
+        .about-card:hover li::before {
+            transform: translateX(5px);
+            color: var(--accent-color);
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .tech-item {
+            background-color: rgba(88, 166, 255, 0.1);
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(88, 166, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .tech-item:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(88, 166, 255, 0.2);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin-top: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background-color: var(--border-color);
+            transition: all 0.5s ease;
+        }
+
+        .about-card:hover .timeline::before {
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+            padding-left: 1.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            border: 2px solid var(--card-bg);
+            transition: all 0.3s ease;
+        }
+
+        .about-card:hover .timeline-item::before {
+            background-color: var(--accent-color);
+            transform: scale(1.2);
+        }
+
+        .timeline-date {
+            font-size: 0.9rem;
+            color: var(--gray-color);
+            margin-bottom: 0.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .about-card:hover .timeline-date {
+            color: var(--light-color);
+        }
+
+        .timeline-title {
+            font-weight: 500;
+            color: var(--lighter-color);
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .timeline-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .about-card:hover .timeline-title::after {
+            width: 100%;
+        }
+
+        .timeline-description {
+            font-size: 0.95rem;
+            color: var(--light-color);
+            transition: all 0.3s ease;
+        }
+
+        .about-card:hover .timeline-description {
+            color: var(--lighter-color);
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .contact-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .contact-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: var(--accent-color);
+        }
+
+        .contact-link:hover::after {
+            width: 100%;
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+
+        .delay-4 {
+            animation-delay: 0.8s;
+        }
+
+        @media (max-width: 992px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .photo-container {
+                width: 240px;
+                height: 240px;
+                margin: 0 auto;
+                transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+            }
+
+            .header-text h1 {
+                font-size: 2.2rem;
+            }
+
+            .header-text h2 {
+                font-size: 1.2rem;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .section-title::before,
+            .section-title::after {
+                display: none;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-text h1 {
+                font-size: 1.8rem;
+            }
+
+            .header-text p {
+                font-size: 1rem;
+            }
+
+            .photo-container {
+                width: 200px;
+                height: 200px;
+            }
+        }
+    </style>
 </head>
-
 <body>
-    <main class="container">
-        <div class="row">
-            <div class="col-lg-4 left-side">
-                <header>
-                    <div class="profile">
-                        <div class="picture">
-                            <img src="img/avatar.jpg" alt="Andrew Karnaushenko">
-                        </div>
-                        <a class="btn btn-cv" href="#" role="button" download>
-                            <i class="fas fa-file-alt"></i> Download Resume
-                        </a>
-                        <h1>Andrew Karnaushenko</h1>
-                        <span>Python developer</span>
+    <header>
+        <div class="tech-bg">
+            <div class="tech-element"></div>
+            <div class="tech-element"></div>
+            <div class="tech-element"></div>
+            <div class="tech-element"></div>
+            <div class="tech-element"></div>
+            <div class="tech-element"></div>
+            <div class="tech-element"></div>
+            <div class="tech-element"></div>
+            <div class="tech-element"></div>
+            <div class="tech-element"></div>
+        </div>
+        <div class="particles" id="particles-js"></div>
+        <div class="container">
+            <div class="header-content">
+                <div class="photo-container fade-in-up">
+                    <img src="img/avatar.jpg" alt="Photo">
+                </div>
+                <div class="header-text">
+                    <h1 class="fade-in-up delay-1">Andrew Karnaushenko</h1>
+                    <h2 class="fade-in-up delay-2">Software Engineer</h2>
+                    <p class="fade-in-up delay-3">I'm a software engineer who turns complex problems into effective automated solutions - be it web applications, AI models, or workflow optimization.</p>
+                    <div class="social-links fade-in-up delay-4">
+                <a href="https://github.com/AllOneNeon" target="_blank" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/andrew-karnaushenko-5606b723a/" target="_blank" title="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="https://t.me/alloneneon" target="_blank" title="Telegram">
+                    <i class="fab fa-telegram"></i>
+                </a>
+                <a href="mailto:allloneneon@gmail.com" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
                     </div>
-                    <ul class="social">
-                        <li><i class="fas fa-envelope"></i> <span id="email"><a href="#">allloneneon@gmail.com</a></span></li>
-                        <li><i class="fab fa-github"></i> <a href="https://github.com/AllOneNeon" target="_blank">Andrew Karnaushenko</a></li>
-                        <li><i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/andrew-karnaushenko-5606b723a/" target="_blank">Andrew Karnaushenko</a></li>
-                        <li><i class="fas fa-pencil-alt"></i> <a href="https://t.me/alloneneon" target="_blank">Telegram</a></li>
-                        <li><i class="fas fa-file-alt"></i> <a href="https://rabota.by/resume/20a395dbff08546ef50039ed1f755653467032" target="_blank">hh resume</a></li>
-                    </ul>
-
-                    <p>Hello there, I am Python developer.
-                        <p>Every day I improve my skills and develop. I am looking for a professional team to start my journey.</p>
-                        At the moment I have a solid knowledge of Python, Django, PyTest, HTML/CSS, SQL, Bootstrap, Flask, Docker, design patterns and OOP on my own.
-                   I have experience working with Selenium, Scrapy.I have also experience in writing bots (Discord, Telegram) and working with automation systems. 
-                   I Had experience working with neural networks (TensorFlow, Keras, PyTorch, Pytorch Lightning).
-                        <p>I have a experience of commercial development on the project.</p>
-                        <p>I have basic knowledge of JS, React.</p>
-                        <p>English - B1.</p>
-                        I took Python programming course at the BELHARD Academy. I carefully study the documentation and take courses on the Udemy platform and other platforms such as Google.</p>
-                </header>
-            </div>
-
-            <div class="col-lg-8 right-side">
-                <article>
-                    <section>
-                        <h2 class="section-title">
-                            <span class="fa-stack fa-xs">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fas fa-graduation-cap fa-stack-1x fa-inverse"></i>
-                            </span>
-                            Education
-                        </h2>
-
-                        <div class="school">
-                            <div class="upper-row">
-                                <h3 class="school-name">Belarusian National Technical University, Minsk</h3>
-                                <div class="time">Graduation - Jul. 2020</div>
-                            </div>
-                            <div class="school-title">MTF, Mechanical and technological, Metallurgical production and material processing (by directions)</div>
-
-                            <div class="upper-row">
-                                <h3 class="school-name">BELHARD Academy</h3>
-                                <div class="time">Graduation - Feb. 2022</div>
-                            </div>
-                            <div class="school-title">European Software Development Center LLC, "Programming in Python"</div>
-
-                            <b>Relevant Coursework:</b> Data Structures, Web Programming, Computer Architecture,
-                            Systems Programming, Computer Networks 
-                            
-                        </div>
-                    </section>
-
-                    <section>
-                        <h2 class="section-title">
-                            <span class="fa-stack fa-xs">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fas fa-wrench fa-stack-1x fa-inverse"></i>
-                            </span>
-                            Technical Skills:
-                        </h2>
-                        <b>Languages:</b> Python, JavaScript, CSS, HTML<br>
-                        <b>Technologies:</b> Unix, Git, Docker, Django, Flask, Jupyter Notebook,
-                        Celery, RabbitMQ, asyncio, Scrapy, Beautiful Soup, Selenium, React, Bootstrap,
-                        PostgreSQL, PyTest, MongoDB, SQLalchemy<br>
-                    </section>
-
-                    <section>
-                        <h2 class="section-title">
-                            <span class="fa-stack fa-xs">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fas fa-briefcase fa-stack-1x fa-inverse"></i>
-                            </span>
-                            Experience
-                        </h2>
-                       <div class="job">
-                            <div class="upper-row">
-                                <h3 class="company">Easy Code</h3>
-                                <div class="time">Feb. 2023</div>
-                            </div>
-                            <div class="job-title">Python developer</div>
-
-                            <ul>
-                                <li>I am creating a neural network for generating music using Pytorch, Pytorch Lightning, TensorFlow. I also work with datasets.</li>
-                            </ul>
-                        </div>
-                       
-                        <div class="job">
-                            <div class="upper-row">
-                                <h3 class="company">Innowise group</h3>
-                                <div class="time">Dec. 2022 – Jan. 2023</div>
-                            </div>
-                            <div class="job-title">Python developer</div>
-
-                            <ul>
-                                <li>I've been doing web development using Python, Django, PostgreSQL, Django Rest Framework, Docker, Celery, RabbitMQ, Fast API.
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="job">
-                            <div class="upper-row">
-                                <h3 class="company">ArtSunSoft</h3>
-                                <div class="time">Aug. 2022 – Oct. 2022</div>
-                            </div>
-                            <div class="job-title">Python developer</div>
-
-                            <ul>
-                                <li>I was creating a neural network. I used Pytorch, TensorFlow. I also worked with Flash, PostgreSQL, Bootstrap.</li>
-                            </ul>
-                        </div>
-
-                        <div class="job">
-                            <div class="upper-row">
-                                <h3 class="company">JSC "MAZ"</h3>
-                                <div class="time">Jul. 2020 – Jul. 2022</div>
-                            </div>
-                            <div class="job-title">Occupational Safety Engineer</div>
-
-                            <ul>
-                                <li>I've been working with SQL.</li>
-                            </ul>
-                        </div>
-                    </section>
-
-                    <section>
-                        <h2 class="section-title">
-                            <span class="fa-stack fa-xs">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fas fa-pen fa-stack-1x fa-inverse"></i>
-                            </span>
-                            Projects
-                        </h2>
-
-                        <div class="job">
-                            <div class="upper-row">
-                                <div class="company">You can see my projects in my GitHub</div>
-                                <a href="https://github.com/AllOneNeon">GitHub link</a>
-                                
-                            </div>
-
-
-                <footer>
-                    <small class="copyright">
-                        <a href="https://github.com/AllOneNeon" target="_blank">CV</a>
-                        |
-                        Made with <i class="fas fa-heart"></i> by <a href="https://github.com/AllOneNeon" target="_blank"
-                            rel="nofollow">AllOneNeon</a>
-                    </small>
-                </footer>
+                </div>
             </div>
         </div>
-    </main>
+    </header>
+
+    <section class="about-section">
+        <div class="container">
+            <div class="section-title-container">
+                <h2 class="section-title fade-in-up">Experience & Skills</h2>
+            </div>
+            <div class="about-grid">
+                <div class="about-card fade-in-up delay-1">
+                    <h3>Опыт работы</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">2023 - Present</div>
+                            <div class="timeline-title">Software Engineer, JSC Priorbank</div>
+                            <div class="timeline-description">Working with software, automation of technological processes, process architecture, working with Big Data, development of neural networks for process automation.</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">2022 - 2023</div>
+                            <div class="timeline-title">Python Software Engineer, ArtSunSoft | Innowise Group</div>
+                            <div class="timeline-description">Development of a neural network for generating images based on a provided dataset. Working with the dataset. Creating a web application for interacting with the neural network.
+                                <p>Development of web applications with microservice architecture, working with Docker, RabbitMQ, Celery, Async, PostgreSQL.</p></div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">2022 - Present</div>
+                            <div class="timeline-title">Software Engineer, Freelance</div>
+                            <div class="timeline-description">Web application development, neural network development, data management, data analytics, DevOps.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-card fade-in-up delay-2">
+                    <h3>Technical skills</h3>
+                    <ul>
+                        <li>Languages: Python, TypeScript, Go, Rust</li>
+                        <li>Front: React, Next.js, GraphQL, Webpack</li>
+                        <li>Backend: Node.js, Django, FastAPI, Flask</li>
+                        <li>Databases: PostgreSQL, MongoDB, Redis</li>
+                        <li>DevOps: Docker, Kubernetes, AWS, GitHub Actions</li>
+                    </ul>
+                    <h3 style="margin-top: 2rem;">Tech stack</h3>
+                    <div class="tech-stack">
+                        <span class="tech-item">Python</span>
+                        <span class="tech-item">Django</span>
+                        <span class="tech-item">Flask</span>
+                        <span class="tech-item">Docker</span>
+                        <span class="tech-item">React</span>
+                        <span class="tech-item">K8s</span>
+                        <span class="tech-item">PyTorch</span>
+                        <span class="tech-item">TypeScript</span>
+                        <span class="tech-item">PostgreSQL</span>
+                        <span class="tech-item">Redis</span>
+                        <span class="tech-item">Git</span>
+                        <span class="tech-item">CI/CD</span>
+                    </div>
+                </div>
+                <div class="about-card fade-in-up delay-3">
+                    <h3>Education & Achievements</h3>
+                    <ul>
+                        <li>Belarusian National Technical University, Industrial Safety Technology/Technician (2015-2020)</li>
+                        <li>Certification at BELHARD Academy for Python Developer (2022)</li>
+                        <li>Course "Google's Python Class" (2023), Codecademy (2024)</li>
+                        <li>Implemented monitoring: downtime reduction by 90%</li>
+                        <li>I actively maintain GitHub, I want to bring something new and beautiful to the world</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="fade-in-up delay-4">
+        <div class="container">
+            <p>© 2025 <strong>Made with <i class="fas fa-heart"></i> by Andrew Karnaushenko</strong>  </p>
+            <p style="margin-top: 1rem;">Contact me: <a href="mailto:allloneneon@gmail.com" class="contact-link">allloneneon@gmail.com</a> | <a href="https://t.me/alloneneon" class="contact-link">@alloneneon</a></p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const techElements = document.querySelectorAll('.tech-element');
+            techElements.forEach((el, i) => {
+                gsap.from(el, {
+                    duration: 1.5 + i * 0.3,
+                    opacity: 0,
+                    x: 'random(-100, 100)',
+                    y: 'random(-50, 50)',
+                    ease: 'power3.out',
+                    delay: 0.5 + i * 0.1
+                });
+                
+                gsap.to(el, {
+                    duration: 15 + i * 3,
+                    x: 'random(-50, 50)',
+                    y: 'random(-30, 30)',
+                    rotation: 'random(-45, 45)',
+                    repeat: -1,
+                    yoyo: true,
+                    ease: 'sine.inOut'
+                });
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                
+                techElements.forEach((el, i) => {
+                    const speed = 20 + i * 10;
+                    gsap.to(el, {
+                        x: x * speed,
+                        y: y * speed,
+                        duration: 0.8
+                    });
+                });
+            });
+
+            const particlesContainer = document.getElementById('particles-js');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+
+                const size = Math.random() * 5 + 1;
+                const posX = Math.random() * window.innerWidth;
+                const posY = Math.random() * window.innerHeight;
+                const delay = Math.random() * 5;
+                const duration = 10 + Math.random() * 20;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}px`;
+                particle.style.top = `${posY}px`;
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+                
+                particlesContainer.appendChild(particle);
+
+                gsap.to(particle, {
+                    y: '+=random(-100, 100)',
+                    x: '+=random(-100, 100)',
+                    rotation: 'random(-360, 360)',
+                    duration: duration,
+                    delay: delay,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: 'sine.inOut'
+                });
+            }
+
+            const animateOnScroll = () => {
+                const elements = document.querySelectorAll('.fade-in-up');
+                
+                elements.forEach(element => {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elementPosition < windowHeight - 100) {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', animateOnScroll);
+            window.addEventListener('load', animateOnScroll);
+        });
+    </script>
+</body>
 </html>
